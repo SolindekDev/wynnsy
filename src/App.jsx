@@ -8,17 +8,17 @@ import PageNotFound from './components/PageNotFound.jsx';
 import ProvablyFair from './components/ProvablyFair.jsx';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Cookies from 'js-cookie';
 
-const App = () => {
-    const [isModalOpen, setModalOpen] = useState(true);
+import GetAuthentication from './Authentication.jsx';
 
-    useEffect(() => {
-        if (Cookies.get("age-restriction") === "true") {
-            setModalOpen(false);
-        }
-    }, []); 
+const App = () => {
+    const modalOpen = Cookies.get("age-restriction") !== "true";
+    console.log("Should we open age restriction modal: ", modalOpen)
+    const [isModalOpen, setModalOpen] = useState(modalOpen);
+
+    const auth = GetAuthentication();
 
     const handleModalClose = () => {
         // Set expire date to 30 days
@@ -48,24 +48,24 @@ const App = () => {
             <div className="grid grid-cols-10 grid-rows-10 w-full max-h-[100vh]">
                 {/* Navbar */}
                 <div className="col-span-10 border-zinc-800 border-b-2">
-                    <Navbar/>
+                    <Navbar auth={auth}/>
                 </div>
                 
                 {/* Sidebar - fixed height, no scroll */}
                 <div className="col-span-2 row-span-10 row-start-2 border-zinc-800 border-r-2 overflow-hidden">
-                    <Sidebar/>
+                    <Sidebar auth={auth}/>
                 </div>
 
                 {/* Content Area - enable scroll here */}
                 <div className="col-span-8 row-span-9 col-start-3 row-start-2 overflow-y-auto max-h-[calc(100vh-4rem)] scrollable-content">
                     <Routes>
-                        <Route path="/" element={<Home/>} exact/>
-                        <Route path="/deposit" element={<Home/>} />
-                        <Route path="/withdraw" element={<Home/>} />
-                        <Route path="/provably-fair" element={<ProvablyFair/>} />
-                        <Route path="/use-code" element={<UseCode/>} />
-                        <Route path="/leaderboard" element={<Leaderboard/>} />
-                        <Route path="*" element={<PageNotFound/>} />
+                        <Route path="/" element={<Home auth={auth}/>} exact/>
+                        <Route path="/deposit" element={<Home auth={auth}/>} />
+                        <Route path="/withdraw" element={<Home auth={auth}/>} />
+                        <Route path="/provably-fair" element={<ProvablyFair auth={auth}/>} />
+                        <Route path="/use-code" element={<UseCode auth={auth}/>} />
+                        <Route path="/leaderboard" element={<Leaderboard auth={auth}/>} />
+                        <Route path="*" element={<PageNotFound auth={auth}/>} />
                     </Routes>
                 </div>
             </div>
