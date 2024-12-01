@@ -1,0 +1,21 @@
+/* Style for the entire scrollbar */
+.scrollable-content::-webkit-scrollbar {
+    width: 12px; /* Set width of the scrollbar */
+    height: 8px; /* Set height of the horizontal scrollbar */
+}
+
+/* Style for the scrollbar track (background) */
+.scrollable-content::-webkit-scrollbar-track {
+    background: rgb(39, 39, 42); /* Darker track */
+}
+
+/* Style for the scrollbar thumb (the part you drag) */
+.scrollable-content::-webkit-scrollbar-thumb {
+    background-color: rgb(115, 115, 115); /* Grey color */
+    border-radius: 10px;
+}
+
+/* Style for the scrollbar thumb on hover */
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(123, 123, 123); /* Darker grey on hover */
+}
